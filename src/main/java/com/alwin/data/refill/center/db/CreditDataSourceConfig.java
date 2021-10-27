@@ -4,11 +4,13 @@ import java.sql.SQLException;
 
 import javax.sql.DataSource;
 
+import com.alibaba.druid.pool.xa.DruidXADataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.jta.atomikos.AtomikosDataSourceBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
@@ -67,8 +69,8 @@ public class CreditDataSourceConfig {
      * @return
      */
     @Bean(name = "creditDataSource")     
-    public DataSource creditDataSource(){  
-        DruidDataSource datasource = new DruidDataSource();  
+    public DataSource creditDataSource(){
+        DruidXADataSource datasource = new DruidXADataSource();
         datasource.setUrl(this.dbUrl);  
         datasource.setUsername(username);  
         datasource.setPassword(password);  
@@ -92,14 +94,13 @@ public class CreditDataSourceConfig {
             e.printStackTrace();
         }  
         
-        datasource.setConnectionProperties(connectionProperties);  
-          
+        datasource.setConnectionProperties(connectionProperties);
+
+        AtomikosDataSourceBean atomikosDataSource = new AtomikosDataSourceBean();
+        atomikosDataSource.setXaDataSource(datasource);
+
+
         return datasource;  
-    }
-    
-    @Bean(name = "creditTransactionManager")
-    public DataSourceTransactionManager creditTransactionManager() {
-    	return new DataSourceTransactionManager(creditDataSource());
     }
 
     @Bean(name = "creditSqlSessionFactory")

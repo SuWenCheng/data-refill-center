@@ -4,16 +4,16 @@ import java.sql.SQLException;
 
 import javax.sql.DataSource;
 
+import com.alibaba.druid.pool.xa.DruidXADataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.jta.atomikos.AtomikosDataSourceBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-
-import com.alibaba.druid.pool.DruidDataSource;
 
 /**
  * druid数据库连接池配置类
@@ -67,8 +67,8 @@ public class PackageDataSourceConfig {
      * @return
      */
     @Bean(name = "packageDataSource")     
-    public DataSource packageDataSource(){  
-        DruidDataSource datasource = new DruidDataSource();  
+    public DataSource packageDataSource(){
+        DruidXADataSource datasource = new DruidXADataSource();
         datasource.setUrl(this.dbUrl);  
         datasource.setUsername(username);  
         datasource.setPassword(password);  
@@ -92,16 +92,14 @@ public class PackageDataSourceConfig {
             e.printStackTrace();
         }  
         
-        datasource.setConnectionProperties(connectionProperties);  
-          
+        datasource.setConnectionProperties(connectionProperties);
+
+        AtomikosDataSourceBean atomikosDataSource = new AtomikosDataSourceBean();
+        atomikosDataSource.setXaDataSource(datasource);
+
         return datasource;  
     }
     
-    @Bean(name = "packageTransactionManager")
-    public DataSourceTransactionManager packageTransactionManager() {
-    	return new DataSourceTransactionManager(packageDataSource());
-    }
-
     @Bean(name = "packageSqlSessionFactory")
     public SqlSessionFactory packageSqlSessionFactory(
     		@Qualifier("packageDataSource") DataSource packageDataSource) throws Exception {

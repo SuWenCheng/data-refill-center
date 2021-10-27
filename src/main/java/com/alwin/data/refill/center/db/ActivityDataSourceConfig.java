@@ -3,18 +3,23 @@ package com.alwin.data.refill.center.db;
 import java.sql.SQLException;
 
 import javax.sql.DataSource;
+import javax.transaction.UserTransaction;
 
+import com.alibaba.druid.pool.xa.DruidXADataSource;
+import com.atomikos.icatch.jta.UserTransactionImp;
+import com.atomikos.icatch.jta.UserTransactionManager;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.jta.atomikos.AtomikosDataSourceBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.jta.JtaTransactionManager;
 
-import com.alibaba.druid.pool.DruidDataSource;
 
 /**
  * druid数据库连接池配置类
@@ -69,8 +74,8 @@ public class ActivityDataSourceConfig {
      */
     @Bean(name = "activityDataSource")     
     @Primary  
-    public DataSource activityDataSource(){  
-        DruidDataSource datasource = new DruidDataSource();  
+    public DataSource activityDataSource(){
+        DruidXADataSource datasource = new DruidXADataSource();
         datasource.setUrl(this.dbUrl);  
         datasource.setUsername(username);  
         datasource.setPassword(password);  
@@ -94,15 +99,20 @@ public class ActivityDataSourceConfig {
             e.printStackTrace();
         }  
         
-        datasource.setConnectionProperties(connectionProperties);  
+        datasource.setConnectionProperties(connectionProperties);
+
+        AtomikosDataSourceBean atomikosDataSource = new AtomikosDataSourceBean();
+        atomikosDataSource.setXaDataSource(datasource);
           
         return datasource;  
     }
-    
-    @Bean(name = "activityTransactionManager")
+
+    @Bean(name = "xatx")
     @Primary
-    public DataSourceTransactionManager activityTransactionManager() {
-    	return new DataSourceTransactionManager(activityDataSource());
+    public JtaTransactionManager activityTransactionManager() {
+        UserTransactionManager userTransactionManager = new UserTransactionManager();
+        UserTransaction userTransaction = new UserTransactionImp();
+        return new JtaTransactionManager(userTransaction, userTransactionManager);
     }
 
     @Bean(name = "activitySqlSessionFactory")

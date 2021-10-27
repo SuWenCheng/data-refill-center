@@ -4,16 +4,17 @@ import java.sql.SQLException;
 
 import javax.sql.DataSource;
 
+import com.alibaba.druid.pool.xa.DruidXADataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.jta.atomikos.AtomikosDataSourceBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
-import com.alibaba.druid.pool.DruidDataSource;
 
 /**
  * druid数据库连接池配置类
@@ -67,8 +68,8 @@ public class CouponDataSourceConfig {
      * @return
      */
     @Bean(name = "couponDataSource")     
-    public DataSource couponDataSource(){  
-        DruidDataSource datasource = new DruidDataSource();  
+    public DataSource couponDataSource(){
+        DruidXADataSource datasource = new DruidXADataSource();
         datasource.setUrl(this.dbUrl);  
         datasource.setUsername(username);  
         datasource.setPassword(password);  
@@ -92,16 +93,14 @@ public class CouponDataSourceConfig {
             e.printStackTrace();
         }  
         
-        datasource.setConnectionProperties(connectionProperties);  
-          
+        datasource.setConnectionProperties(connectionProperties);
+
+        AtomikosDataSourceBean atomikosDataSource = new AtomikosDataSourceBean();
+        atomikosDataSource.setXaDataSource(datasource);
+
         return datasource;  
     }
     
-    @Bean(name = "couponTransactionManager")
-    public DataSourceTransactionManager couponTransactionManager() {
-    	return new DataSourceTransactionManager(couponDataSource());
-    }
-
     @Bean(name = "couponSqlSessionFactory")
     public SqlSessionFactory couponSqlSessionFactory(
     		@Qualifier("couponDataSource") DataSource couponDataSource) throws Exception {
