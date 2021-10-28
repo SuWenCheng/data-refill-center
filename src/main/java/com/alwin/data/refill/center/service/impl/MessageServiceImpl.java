@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * 消息服务service组件
- * @author zhonghuashishan
+ * @author AlwinSu
  *
  */
 @Service

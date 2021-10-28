@@ -6,7 +6,7 @@ import com.alwin.data.refill.center.domain.Coupon;
 
 /**
  * 流量券mapper组件
- * @author zhonghuashishan
+ * @author AlwinSu
  *
  */
 @Mapper

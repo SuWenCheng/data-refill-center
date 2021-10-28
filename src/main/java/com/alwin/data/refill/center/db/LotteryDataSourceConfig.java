@@ -13,12 +13,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.jta.atomikos.AtomikosDataSourceBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 
 /**
  * druid数据库连接池配置类
- * @author zhonghuashishan
+ * @author AlwinSu
  *
  */
 @Configuration  
@@ -98,7 +97,7 @@ public class LotteryDataSourceConfig {
         AtomikosDataSourceBean atomikosDataSource = new AtomikosDataSourceBean();
         atomikosDataSource.setXaDataSource(datasource);
 
-        return datasource;  
+        return atomikosDataSource;
     }
     
     @Bean(name = "lotterySqlSessionFactory")

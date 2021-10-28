@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Update;
 
 /**
  * 积分mapper组件
- * @author zhonghuashishan
+ * @author AlwinSu
  *
  */
 @Mapper

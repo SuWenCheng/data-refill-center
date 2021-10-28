@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * 第三方运营商BOSS系统访问service组件
- * @author zhonghuashishan
+ * @author AlwinSu
  *
  */
 @Service

@@ -2,7 +2,7 @@ package com.alwin.data.refill.center.service;
 
 /**
  * 积分service组件
- * @author zhonghuashishan
+ * @author AlwinSu
  *
  */
 public interface CreditService {

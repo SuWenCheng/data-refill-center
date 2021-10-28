@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Update;
 
 /**
  * 账户金额mapper组件
- * @author zhonghuashishan
+ * @author AlwinSu
  *
  */
 @Mapper

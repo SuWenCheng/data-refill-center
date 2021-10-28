@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Update;
 
 /**
  * 抽奖机会mapper组件
- * @author zhonghuashishan
+ * @author AlwinSu
  *
  */
 @Mapper

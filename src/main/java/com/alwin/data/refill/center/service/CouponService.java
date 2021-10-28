@@ -5,7 +5,7 @@ import com.alwin.data.refill.center.domain.Coupon;
 
 /**
  * 流量券service组件
- * @author zhonghuashishan
+ * @author AlwinSu
  *
  */
 public interface CouponService {

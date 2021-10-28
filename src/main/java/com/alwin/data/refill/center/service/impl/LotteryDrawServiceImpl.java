@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * 抽奖机会service组件
- * @author zhonghuashishan
+ * @author AlwinSu
  *
  */
 @Service

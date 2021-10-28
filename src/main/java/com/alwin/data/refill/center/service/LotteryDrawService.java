@@ -2,7 +2,7 @@ package com.alwin.data.refill.center.service;
 
 /**
  * 抽奖机会service组件
- * @author zhonghuashishan
+ * @author AlwinSu
  *
  */
 public interface LotteryDrawService {

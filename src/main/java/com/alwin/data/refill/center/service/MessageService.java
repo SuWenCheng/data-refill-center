@@ -2,7 +2,7 @@ package com.alwin.data.refill.center.service;
 
 /**
  * 消息服务service组件
- * @author zhonghuashishan
+ * @author AlwinSu
  *
  */
 public interface MessageService {

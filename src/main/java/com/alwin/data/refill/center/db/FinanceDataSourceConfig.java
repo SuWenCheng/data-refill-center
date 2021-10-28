@@ -13,13 +13,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.jta.atomikos.AtomikosDataSourceBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
-import com.alibaba.druid.pool.DruidDataSource;
 
 /**
  * druid数据库连接池配置类
- * @author zhonghuashishan
+ * @author AlwinSu
  *
  */
 @Configuration  
@@ -99,7 +97,7 @@ public class FinanceDataSourceConfig {
         AtomikosDataSourceBean atomikosDataSource = new AtomikosDataSourceBean();
         atomikosDataSource.setXaDataSource(datasource);
 
-        return datasource;  
+        return atomikosDataSource;
     }
     
     @Bean(name = "financeSqlSessionFactory")

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * 积分service组件
- * @author zhonghuashishan
+ * @author AlwinSu
  *
  */
 @Service
@@ -25,6 +25,7 @@ public class CreditServiceImpl implements CreditService {
 	 * @param userAccountId 用户账号id
 	 */
 	public void increment(Long userAccountId, Double updatedPoint) {
+		//int i = 1/0;
 		creditMapper.increment(userAccountId, updatedPoint); 
 	}
 	
